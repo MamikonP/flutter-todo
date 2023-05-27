@@ -1,7 +1,7 @@
 import '../entity.dart';
 
 class DeleteTodoEntity implements Entity {
-  const DeleteTodoEntity(this.type);
+  const DeleteTodoEntity(this.id);
 
-  final String type;
+  final String id;
 }

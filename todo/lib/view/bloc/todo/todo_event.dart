@@ -16,3 +16,15 @@ class DeleteEvent implements TodoEvent {
 
   final DeleteTodoEntity entity;
 }
+
+class AddTaskEvent implements TodoEvent {
+  const AddTaskEvent(this.entity);
+
+  final AddTaskEntity entity;
+}
+
+class DeleteTaskEvent implements TodoEvent {
+  const DeleteTaskEvent(this.entity);
+
+  final DeleteTodoEntity entity;
+}

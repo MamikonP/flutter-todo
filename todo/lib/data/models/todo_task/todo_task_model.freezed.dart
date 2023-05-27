@@ -24,6 +24,7 @@ mixin _$TodoTaskModel {
   String get title => throw _privateConstructorUsedError;
   DateTime? get dueDate => throw _privateConstructorUsedError;
   String? get tag => throw _privateConstructorUsedError;
+  String? get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,8 @@ abstract class $TodoTaskModelCopyWith<$Res> {
           TodoTaskModel value, $Res Function(TodoTaskModel) then) =
       _$TodoTaskModelCopyWithImpl<$Res, TodoTaskModel>;
   @useResult
-  $Res call({String id, String title, DateTime? dueDate, String? tag});
+  $Res call(
+      {String id, String title, DateTime? dueDate, String? tag, String? type});
 }
 
 /// @nodoc
@@ -57,6 +59,7 @@ class _$TodoTaskModelCopyWithImpl<$Res, $Val extends TodoTaskModel>
     Object? title = null,
     Object? dueDate = freezed,
     Object? tag = freezed,
+    Object? type = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,6 +78,10 @@ class _$TodoTaskModelCopyWithImpl<$Res, $Val extends TodoTaskModel>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -87,7 +94,8 @@ abstract class _$$_TodoTaskModelCopyWith<$Res>
       __$$_TodoTaskModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, DateTime? dueDate, String? tag});
+  $Res call(
+      {String id, String title, DateTime? dueDate, String? tag, String? type});
 }
 
 /// @nodoc
@@ -105,6 +113,7 @@ class __$$_TodoTaskModelCopyWithImpl<$Res>
     Object? title = null,
     Object? dueDate = freezed,
     Object? tag = freezed,
+    Object? type = freezed,
   }) {
     return _then(_$_TodoTaskModel(
       id: null == id
@@ -123,6 +132,10 @@ class __$$_TodoTaskModelCopyWithImpl<$Res>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -131,7 +144,11 @@ class __$$_TodoTaskModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TodoTaskModel implements _TodoTaskModel {
   const _$_TodoTaskModel(
-      {required this.id, required this.title, this.dueDate, this.tag});
+      {required this.id,
+      required this.title,
+      this.dueDate,
+      this.tag,
+      this.type});
 
   factory _$_TodoTaskModel.fromJson(Map<String, dynamic> json) =>
       _$$_TodoTaskModelFromJson(json);
@@ -144,10 +161,12 @@ class _$_TodoTaskModel implements _TodoTaskModel {
   final DateTime? dueDate;
   @override
   final String? tag;
+  @override
+  final String? type;
 
   @override
   String toString() {
-    return 'TodoTaskModel(id: $id, title: $title, dueDate: $dueDate, tag: $tag)';
+    return 'TodoTaskModel(id: $id, title: $title, dueDate: $dueDate, tag: $tag, type: $type)';
   }
 
   @override
@@ -158,12 +177,13 @@ class _$_TodoTaskModel implements _TodoTaskModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.dueDate, dueDate) || other.dueDate == dueDate) &&
-            (identical(other.tag, tag) || other.tag == tag));
+            (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, dueDate, tag);
+  int get hashCode => Object.hash(runtimeType, id, title, dueDate, tag, type);
 
   @JsonKey(ignore: true)
   @override
@@ -184,7 +204,8 @@ abstract class _TodoTaskModel implements TodoTaskModel {
       {required final String id,
       required final String title,
       final DateTime? dueDate,
-      final String? tag}) = _$_TodoTaskModel;
+      final String? tag,
+      final String? type}) = _$_TodoTaskModel;
 
   factory _TodoTaskModel.fromJson(Map<String, dynamic> json) =
       _$_TodoTaskModel.fromJson;
@@ -197,6 +218,8 @@ abstract class _TodoTaskModel implements TodoTaskModel {
   DateTime? get dueDate;
   @override
   String? get tag;
+  @override
+  String? get type;
   @override
   @JsonKey(ignore: true)
   _$$_TodoTaskModelCopyWith<_$_TodoTaskModel> get copyWith =>
