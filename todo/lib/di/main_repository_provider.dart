@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'data_providers.dart';
+import 'domain_providers.dart';
 import 'providers/navigation_router_provider.dart';
 
 typedef MainRepositoryBuilderCallback = Widget Function(
@@ -19,6 +21,8 @@ class MainRepositoryProvider extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         navigationRouterProvider(_navigatorKey),
+        ...dataProviders,
+        ...domainProviders
       ],
       child: builder(context, _navigatorKey),
     );
