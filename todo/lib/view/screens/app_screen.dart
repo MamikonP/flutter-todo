@@ -14,16 +14,12 @@ class AppScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return Scaffold(
-          appBar: appBar,
-          body: SafeArea(
-            child: content,
-          ),
-          floatingActionButton: floatingActionButton,
-        );
-      },
+    return Scaffold(
+      appBar: appBar,
+      body: SafeArea(
+        child: content,
+      ),
+      floatingActionButton: floatingActionButton,
     );
   }
 }

@@ -28,6 +28,11 @@ class TodoInitial extends TodoState {
   const TodoInitial() : super();
 }
 
+class TodoBusy extends TodoState {
+  TodoBusy(TodoState initState)
+      : super(todos: initState.todos, tasks: initState.tasks, isBusy: true);
+}
+
 class TodoLoaded extends TodoState {
   TodoLoaded(
     TodoState initState, {

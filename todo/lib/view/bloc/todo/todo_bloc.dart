@@ -67,6 +67,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   FutureOr<void> _mapLoadEventToState(
       LoadEvent event, Emitter<TodoState> emit) async {
     try {
+      emit(TodoBusy(state));
       await _foldTodos(emit);
       await _foldTasks(emit);
     } catch (e) {
@@ -77,13 +78,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   FutureOr<void> _mapAddEventToState(
       AddEvent event, Emitter<TodoState> emit) async {
     try {
+      emit(TodoBusy(state));
       final Either<Failure, EmptyEntity> entity =
           await _addTodoUseCase(event.entity);
-      entity
-          .fold((Failure left) => emit(TodoFailed(state, 'Failed to add todo')),
-              (EmptyEntity right) async {
+      entity.fold(
+          (Failure left) => emit(TodoFailed(state, 'Failed to add todo')),
+          (EmptyEntity right) async {});
+      if (state is! TodoFailed) {
         await _foldTodos(emit);
-      });
+      }
     } catch (e) {
       emit(TodoFailed(state, e.toString()));
     }
@@ -92,13 +95,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   FutureOr<void> _mapDeleteEventToState(
       DeleteEvent event, Emitter<TodoState> emit) async {
     try {
+      emit(TodoBusy(state));
       final Either<Failure, EmptyEntity> entity =
           await _deleteTodoUseCase(event.entity);
       entity.fold(
           (Failure left) => emit(TodoFailed(state, 'Failed to remove todo')),
-          (EmptyEntity right) async {
+          (EmptyEntity right) async {});
+      if (state is! TodoFailed) {
         await _foldTodos(emit);
-      });
+      }
     } catch (e) {
       emit(TodoFailed(state, e.toString()));
     }
@@ -107,13 +112,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   FutureOr<void> _mapAddTaskEventToState(
       AddTaskEvent event, Emitter<TodoState> emit) async {
     try {
+      emit(TodoBusy(state));
       final Either<Failure, EmptyEntity> entity =
           await _addTaskUseCase(event.entity);
-      entity
-          .fold((Failure left) => emit(TodoFailed(state, 'Failed to add task')),
-              (EmptyEntity right) async {
+      entity.fold(
+          (Failure left) => emit(TodoFailed(state, 'Failed to add task')),
+          (EmptyEntity right) async {});
+      if (state is! TodoFailed) {
         await _foldTasks(emit);
-      });
+      }
     } catch (e) {
       emit(TodoFailed(state, e.toString()));
     }
@@ -122,14 +129,18 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   FutureOr<void> _mapDeleteTaskEventToState(
       DeleteTaskEvent event, Emitter<TodoState> emit) async {
     try {
+      emit(TodoBusy(state));
       final Either<Failure, EmptyEntity> entity =
           await _deleteTaskUseCase(event.entity);
       entity.fold(
           (Failure left) =>
               emit(TodoFailed(state, 'Failed to delete the task')),
           (EmptyEntity right) async {
-        await _foldTasks(emit);
       });
+      if (state is! TodoFailed) {
+        await _foldTasks(emit);
+      }
+
     } catch (e) {
       emit(TodoFailed(state, e.toString()));
     }
