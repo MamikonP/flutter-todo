@@ -6,6 +6,7 @@ abstract class LocalDbService {
   Future<void> put<T>(Box<T> db, Object key, T value);
   List<T> getAll<T>(Box<T> db);
   T? get<T>(Box<T> db, Object key);
-  Future<void> delete<T>(Box<T> db, String dbName);
+  Future<void> delete<T>(Box<T> db, Object key);
   Future<void> clear<T>(Box<T> db);
+  bool containsKey<T>(Box<T> db, Object key);
 }

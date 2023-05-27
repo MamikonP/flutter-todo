@@ -21,8 +21,7 @@ TodoListModel _$TodoListModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TodoListModel {
   String get type => throw _privateConstructorUsedError;
-  @JsonKey(name: 'todos')
-  List<TodoTaskModel> get todoTasks => throw _privateConstructorUsedError;
+  TodoListColor? get color => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,8 +35,7 @@ abstract class $TodoListModelCopyWith<$Res> {
           TodoListModel value, $Res Function(TodoListModel) then) =
       _$TodoListModelCopyWithImpl<$Res, TodoListModel>;
   @useResult
-  $Res call(
-      {String type, @JsonKey(name: 'todos') List<TodoTaskModel> todoTasks});
+  $Res call({String type, TodoListColor? color});
 }
 
 /// @nodoc
@@ -54,17 +52,17 @@ class _$TodoListModelCopyWithImpl<$Res, $Val extends TodoListModel>
   @override
   $Res call({
     Object? type = null,
-    Object? todoTasks = null,
+    Object? color = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      todoTasks: null == todoTasks
-          ? _value.todoTasks
-          : todoTasks // ignore: cast_nullable_to_non_nullable
-              as List<TodoTaskModel>,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as TodoListColor?,
     ) as $Val);
   }
 }
@@ -77,8 +75,7 @@ abstract class _$$_TodoListModelCopyWith<$Res>
       __$$_TodoListModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String type, @JsonKey(name: 'todos') List<TodoTaskModel> todoTasks});
+  $Res call({String type, TodoListColor? color});
 }
 
 /// @nodoc
@@ -93,17 +90,17 @@ class __$$_TodoListModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? type = null,
-    Object? todoTasks = null,
+    Object? color = freezed,
   }) {
     return _then(_$_TodoListModel(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      todoTasks: null == todoTasks
-          ? _value._todoTasks
-          : todoTasks // ignore: cast_nullable_to_non_nullable
-              as List<TodoTaskModel>,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as TodoListColor?,
     ));
   }
 }
@@ -111,29 +108,19 @@ class __$$_TodoListModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_TodoListModel implements _TodoListModel {
-  const _$_TodoListModel(
-      {required this.type,
-      @JsonKey(name: 'todos')
-          final List<TodoTaskModel> todoTasks = const <TodoTaskModel>[]})
-      : _todoTasks = todoTasks;
+  const _$_TodoListModel({required this.type, this.color});
 
   factory _$_TodoListModel.fromJson(Map<String, dynamic> json) =>
       _$$_TodoListModelFromJson(json);
 
   @override
   final String type;
-  final List<TodoTaskModel> _todoTasks;
   @override
-  @JsonKey(name: 'todos')
-  List<TodoTaskModel> get todoTasks {
-    if (_todoTasks is EqualUnmodifiableListView) return _todoTasks;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_todoTasks);
-  }
+  final TodoListColor? color;
 
   @override
   String toString() {
-    return 'TodoListModel(type: $type, todoTasks: $todoTasks)';
+    return 'TodoListModel(type: $type, color: $color)';
   }
 
   @override
@@ -142,14 +129,12 @@ class _$_TodoListModel implements _TodoListModel {
         (other.runtimeType == runtimeType &&
             other is _$_TodoListModel &&
             (identical(other.type, type) || other.type == type) &&
-            const DeepCollectionEquality()
-                .equals(other._todoTasks, _todoTasks));
+            (identical(other.color, color) || other.color == color));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, type, const DeepCollectionEquality().hash(_todoTasks));
+  int get hashCode => Object.hash(runtimeType, type, color);
 
   @JsonKey(ignore: true)
   @override
@@ -167,9 +152,8 @@ class _$_TodoListModel implements _TodoListModel {
 
 abstract class _TodoListModel implements TodoListModel {
   const factory _TodoListModel(
-          {required final String type,
-          @JsonKey(name: 'todos') final List<TodoTaskModel> todoTasks}) =
-      _$_TodoListModel;
+      {required final String type,
+      final TodoListColor? color}) = _$_TodoListModel;
 
   factory _TodoListModel.fromJson(Map<String, dynamic> json) =
       _$_TodoListModel.fromJson;
@@ -177,8 +161,7 @@ abstract class _TodoListModel implements TodoListModel {
   @override
   String get type;
   @override
-  @JsonKey(name: 'todos')
-  List<TodoTaskModel> get todoTasks;
+  TodoListColor? get color;
   @override
   @JsonKey(ignore: true)
   _$$_TodoListModelCopyWith<_$_TodoListModel> get copyWith =>

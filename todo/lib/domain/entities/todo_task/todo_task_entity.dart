@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-class TodoTaskEntity extends Equatable {
+import '../entity.dart';
+
+class TodoTaskEntity extends Equatable implements Entity {
   const TodoTaskEntity(
       {required this.id, required this.title, this.dueDate, this.tag});
 

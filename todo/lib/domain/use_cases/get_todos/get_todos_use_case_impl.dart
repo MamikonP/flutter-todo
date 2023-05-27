@@ -13,7 +13,7 @@ class GetTodosUseCaseImpl implements GetTodosUseCase {
   final TodoRepository _todoRepository;
 
   @override
-  Future<Either<Failure, List<TodoListEntity>>> call({void params}) async {
+  Future<Either<Failure, List<TodoListEntity>>> call() async {
     try {
       final List<TodoListModel> models = await _todoRepository.getTodos();
       final List<TodoListEntity> entities =

@@ -1,18 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'todo_list_model.dart';
+part of 'add_todo_list_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TodoListModel _$$_TodoListModelFromJson(Map<String, dynamic> json) =>
-    _$_TodoListModel(
-      type: json['type'] as String,
-      color: $enumDecodeNullable(_$TodoListColorEnumMap, json['color']),
+AddTodoListEntity _$AddTodoListEntityFromJson(Map<String, dynamic> json) =>
+    AddTodoListEntity(
+      json['type'] as String,
+      $enumDecodeNullable(_$TodoListColorEnumMap, json['color']),
     );
 
-Map<String, dynamic> _$$_TodoListModelToJson(_$_TodoListModel instance) =>
+Map<String, dynamic> _$AddTodoListEntityToJson(AddTodoListEntity instance) =>
     <String, dynamic>{
       'type': instance.type,
       'color': _$TodoListColorEnumMap[instance.color],

@@ -23,5 +23,8 @@ class LocalDbServiceImpl implements LocalDbService {
   Future<void> clear<T>(Box<T> db) async => db.clear();
 
   @override
-  Future<void> delete<T>(Box<T> db, String dbName) async => db.delete(dbName);
+  Future<void> delete<T>(Box<T> db, Object key) async => db.delete(key);
+
+  @override
+  bool containsKey<T>(Box<T> db, Object key) => db.containsKey(key);
 }

@@ -1,15 +1,16 @@
 import 'package:equatable/equatable.dart';
 
-import '../todo_task/todo_task_entity.dart';
+import '../../../data/models/todo_list/todo_list_color.dart';
+import '../entity.dart';
 
-class TodoListEntity extends Equatable {
-  const TodoListEntity(this.type, this.todoTasks);
+class TodoListEntity extends Equatable implements Entity {
+  const TodoListEntity(this.type, this.color);
   final String type;
-  final List<TodoTaskEntity> todoTasks;
+  final TodoListColor? color;
 
   @override
-  List<Object?> get props => <Object>[
-        todoTasks,
-        todoTasks,
+  List<Object?> get props => <Object?>[
+        type,
+        color,
       ];
 }
