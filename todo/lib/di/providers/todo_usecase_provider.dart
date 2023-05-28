@@ -14,6 +14,8 @@ import '../../domain/use_cases/get_tasks/get_tasks_use_case.dart';
 import '../../domain/use_cases/get_tasks/get_tasks_use_case_impl.dart';
 import '../../domain/use_cases/get_todos/get_todos_use_case.dart';
 import '../../domain/use_cases/get_todos/get_todos_use_case_impl.dart';
+import '../../domain/use_cases/update_task/update_task_use_case.dart';
+import '../../domain/use_cases/update_task/update_task_use_case_impl.dart';
 
 List<RepositoryProvider<dynamic>> get todoUseCaseProvider =>
     <RepositoryProvider<dynamic>>[
@@ -39,6 +41,10 @@ List<RepositoryProvider<dynamic>> get todoUseCaseProvider =>
       }),
       RepositoryProvider<DeleteTaskUseCase>(create: (BuildContext context) {
         return DeleteTaskUseCaseImpl(
+            RepositoryProvider.of<TodoRepository>(context));
+      }),
+      RepositoryProvider<UpdateTaskUseCase>(create: (BuildContext context) {
+        return UpdateTaskUseCaseImpl(
             RepositoryProvider.of<TodoRepository>(context));
       }),
     ];

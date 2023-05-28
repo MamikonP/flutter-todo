@@ -7,11 +7,14 @@ import '../../../domain/use_cases/delete_task/delete_task_use_case.dart';
 import '../../../domain/use_cases/delete_todo/delete_todo_use_case.dart';
 import '../../../domain/use_cases/get_tasks/get_tasks_use_case.dart';
 import '../../../domain/use_cases/get_todos/get_todos_use_case.dart';
+import '../../../domain/use_cases/update_task/update_task_use_case.dart';
 import '../../../shared/activity_overlay.dart';
 import '../../bloc/todo/todo_bloc.dart';
 import '../../screens/app_screen.dart';
 import '../../screens/home/helper/home_page_helper.dart';
-import '../../screens/home/home_page_screen.dart';
+import '../../screens/home/home_screen.dart';
+import '../../screens/task/task_screen.dart';
+import '../navigation_router.dart';
 
 class HomePageRoute<T> extends PageRoute<T>
     with MaterialRouteTransitionMixin<T> {
@@ -38,6 +41,10 @@ class HomePageRoute<T> extends PageRoute<T>
         RepositoryProvider.of<AddTaskUseCase>(context);
     final DeleteTaskUseCase deleteTaskUseCase =
         RepositoryProvider.of<DeleteTaskUseCase>(context);
+    final UpdateTaskUseCase updateTaskUseCase =
+        RepositoryProvider.of<UpdateTaskUseCase>(context);
+    final NavigationRouter navigationRouter =
+        RepositoryProvider.of<NavigationRouter>(context);
 
     return BlocProvider<TodoBloc>(
       create: (BuildContext context) => TodoBloc(
@@ -46,19 +53,34 @@ class HomePageRoute<T> extends PageRoute<T>
           deleteTodoUseCase,
           getTasksUseCase,
           addTaskUseCase,
-          deleteTaskUseCase)
+          deleteTaskUseCase,
+          updateTaskUseCase)
         ..add(LoadEvent()),
       child: BlocConsumer<TodoBloc, TodoState>(
-        listener: (BuildContext context, TodoState state) {},
+        listener: (BuildContext context, TodoState state) {
+          if (state is TodoFailed) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.error ?? 'Invalid')));
+          }
+        },
         listenWhen:
             ActivityOverlayWidget.of(context).loadWhen<TodoState, TodoBusy>,
         builder: (BuildContext context, TodoState state) {
-          return AppScreen(
-            appBar: AppBar(title: const Text('ToDo List')),
-            content: HomePageScreen(_homePageHelper, state.todos),
-            floatingActionButton: FloatingActionButton(
-                child: const Icon(Icons.add),
-                onPressed: () => _homePageHelper.onAddTodoList(context)),
+          return DefaultTabController(
+            length: 2,
+            child: AppScreen(
+              appBar: AppBar(
+                title: const Text('ToDo List'),
+                bottom: const TabBar(tabs: <Widget>[
+                  Tab(icon: Icon(Icons.today_outlined)),
+                  Tab(icon: Icon(Icons.task))
+                ]),
+              ),
+              content: TabBarView(children: <Widget>[
+                HomeScreen(_homePageHelper, state.todos),
+                TaskScreen(state.tasks, navigationRouter),
+              ]),
+            ),
           );
         },
       ),

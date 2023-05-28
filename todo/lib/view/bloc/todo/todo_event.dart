@@ -28,3 +28,15 @@ class DeleteTaskEvent implements TodoEvent {
 
   final DeleteTodoEntity entity;
 }
+
+class UpdateTaskDetailEvent implements TodoEvent {
+  const UpdateTaskDetailEvent(this.entity);
+
+  final AddTaskEntity entity;
+}
+
+class UpdateTaskItemEvent implements TodoEvent {
+  const UpdateTaskItemEvent(this.entity);
+
+  final TodoTaskEntity entity;
+}

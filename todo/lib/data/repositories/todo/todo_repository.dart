@@ -11,4 +11,5 @@ abstract class TodoRepository {
   Future<List<TodoTaskModel>> getAllTasks();
   Future<void> addTask(AddTaskEntity entity);
   Future<void> deleteTask(DeleteTodoEntity entity);
+  Future<void> updateTask(AddTaskEntity entity);
 }

@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'todo_task_model.dart';
+part of 'todo_task_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TodoTaskModel _$$_TodoTaskModelFromJson(Map<String, dynamic> json) =>
-    _$_TodoTaskModel(
+_$_TodoTaskEntity _$$_TodoTaskEntityFromJson(Map<String, dynamic> json) =>
+    _$_TodoTaskEntity(
       id: json['id'] as String,
       title: json['title'] as String,
       dueDate: json['dueDate'] == null
@@ -19,7 +19,7 @@ _$_TodoTaskModel _$$_TodoTaskModelFromJson(Map<String, dynamic> json) =>
       completed: json['completed'] as bool?,
     );
 
-Map<String, dynamic> _$$_TodoTaskModelToJson(_$_TodoTaskModel instance) =>
+Map<String, dynamic> _$$_TodoTaskEntityToJson(_$_TodoTaskEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

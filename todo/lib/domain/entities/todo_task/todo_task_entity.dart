@@ -1,27 +1,20 @@
-import 'package:equatable/equatable.dart';
-
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../entity.dart';
 
-class TodoTaskEntity extends Equatable implements Entity {
-  const TodoTaskEntity(
-      {required this.id,
-      required this.title,
-      this.dueDate,
-      this.tag,
-      this.type});
+part 'todo_task_entity.freezed.dart';
+part 'todo_task_entity.g.dart';
 
-  final String id;
-  final String title;
-  final DateTime? dueDate;
-  final String? tag;
-  final String? type;
+@freezed
+class TodoTaskEntity with _$TodoTaskEntity implements Entity {
+  const factory TodoTaskEntity(
+      {required String id,
+      required String title,
+      DateTime? dueDate,
+      String? time,
+      String? tag,
+      String? type,
+      bool? completed}) = _TodoTaskEntity;
 
-  @override
-  List<Object?> get props => <Object?>[
-        id,
-        title,
-        dueDate,
-        tag,
-        type,
-      ];
+  factory TodoTaskEntity.fromJson(Map<String, dynamic> json) =>
+      _$TodoTaskEntityFromJson(json);
 }

@@ -43,11 +43,13 @@ mixin TodoListHelperMixin on HomePageHelper {
             ),
             TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
-                  context.read<TodoBloc>().add(AddEvent(AddTodoListEntity(
-                      controller.text, selectedColor, DateTime.now())));
+                  if (controller.text.isEmpty) {
+                    Navigator.pop(context);
+                    context.read<TodoBloc>().add(AddEvent(AddTodoListEntity(
+                        controller.text, selectedColor, DateTime.now())));
+                  }
                 },
-                child: Text(
+                child: const Text(
                   'Create',
                   textAlign: TextAlign.end,
                 ))

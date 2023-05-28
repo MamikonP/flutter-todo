@@ -75,4 +75,12 @@ class TodoRepositoryImpl implements TodoRepository {
       await _localDbService.delete(box, entity.id);
     }
   }
+
+  @override
+  Future<void> updateTask(AddTaskEntity entity) async {
+    final Box<Map<dynamic, dynamic>> box = await todoTaskBox;
+    if (_localDbService.containsKey(box, entity.id)) {
+      await _localDbService.put(box, entity.id, entity.toJson());
+    }
+  }
 }

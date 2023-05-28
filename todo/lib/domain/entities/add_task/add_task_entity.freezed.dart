@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'todo_task_model.dart';
+part of 'add_task_entity.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-TodoTaskModel _$TodoTaskModelFromJson(Map<String, dynamic> json) {
-  return _TodoTaskModel.fromJson(json);
+AddTaskEntity _$AddTaskEntityFromJson(Map<String, dynamic> json) {
+  return _AddTaskEntity.fromJson(json);
 }
 
 /// @nodoc
-mixin _$TodoTaskModel {
+mixin _$AddTaskEntity {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   DateTime? get dueDate => throw _privateConstructorUsedError;
@@ -30,15 +30,15 @@ mixin _$TodoTaskModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TodoTaskModelCopyWith<TodoTaskModel> get copyWith =>
+  $AddTaskEntityCopyWith<AddTaskEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TodoTaskModelCopyWith<$Res> {
-  factory $TodoTaskModelCopyWith(
-          TodoTaskModel value, $Res Function(TodoTaskModel) then) =
-      _$TodoTaskModelCopyWithImpl<$Res, TodoTaskModel>;
+abstract class $AddTaskEntityCopyWith<$Res> {
+  factory $AddTaskEntityCopyWith(
+          AddTaskEntity value, $Res Function(AddTaskEntity) then) =
+      _$AddTaskEntityCopyWithImpl<$Res, AddTaskEntity>;
   @useResult
   $Res call(
       {String id,
@@ -51,9 +51,9 @@ abstract class $TodoTaskModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TodoTaskModelCopyWithImpl<$Res, $Val extends TodoTaskModel>
-    implements $TodoTaskModelCopyWith<$Res> {
-  _$TodoTaskModelCopyWithImpl(this._value, this._then);
+class _$AddTaskEntityCopyWithImpl<$Res, $Val extends AddTaskEntity>
+    implements $AddTaskEntityCopyWith<$Res> {
+  _$AddTaskEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -105,11 +105,11 @@ class _$TodoTaskModelCopyWithImpl<$Res, $Val extends TodoTaskModel>
 }
 
 /// @nodoc
-abstract class _$$_TodoTaskModelCopyWith<$Res>
-    implements $TodoTaskModelCopyWith<$Res> {
-  factory _$$_TodoTaskModelCopyWith(
-          _$_TodoTaskModel value, $Res Function(_$_TodoTaskModel) then) =
-      __$$_TodoTaskModelCopyWithImpl<$Res>;
+abstract class _$$_AddTaskEntityCopyWith<$Res>
+    implements $AddTaskEntityCopyWith<$Res> {
+  factory _$$_AddTaskEntityCopyWith(
+          _$_AddTaskEntity value, $Res Function(_$_AddTaskEntity) then) =
+      __$$_AddTaskEntityCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -123,11 +123,11 @@ abstract class _$$_TodoTaskModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TodoTaskModelCopyWithImpl<$Res>
-    extends _$TodoTaskModelCopyWithImpl<$Res, _$_TodoTaskModel>
-    implements _$$_TodoTaskModelCopyWith<$Res> {
-  __$$_TodoTaskModelCopyWithImpl(
-      _$_TodoTaskModel _value, $Res Function(_$_TodoTaskModel) _then)
+class __$$_AddTaskEntityCopyWithImpl<$Res>
+    extends _$AddTaskEntityCopyWithImpl<$Res, _$_AddTaskEntity>
+    implements _$$_AddTaskEntityCopyWith<$Res> {
+  __$$_AddTaskEntityCopyWithImpl(
+      _$_AddTaskEntity _value, $Res Function(_$_AddTaskEntity) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -141,12 +141,12 @@ class __$$_TodoTaskModelCopyWithImpl<$Res>
     Object? type = freezed,
     Object? completed = freezed,
   }) {
-    return _then(_$_TodoTaskModel(
-      id: null == id
+    return _then(_$_AddTaskEntity(
+      null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
+      null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
@@ -176,18 +176,12 @@ class __$$_TodoTaskModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TodoTaskModel implements _TodoTaskModel {
-  const _$_TodoTaskModel(
-      {required this.id,
-      required this.title,
-      this.dueDate,
-      this.time,
-      this.tag,
-      this.type,
-      this.completed});
+class _$_AddTaskEntity implements _AddTaskEntity {
+  const _$_AddTaskEntity(this.id, this.title,
+      {this.dueDate, this.time, this.tag, this.type, this.completed});
 
-  factory _$_TodoTaskModel.fromJson(Map<String, dynamic> json) =>
-      _$$_TodoTaskModelFromJson(json);
+  factory _$_AddTaskEntity.fromJson(Map<String, dynamic> json) =>
+      _$$_AddTaskEntityFromJson(json);
 
   @override
   final String id;
@@ -206,14 +200,14 @@ class _$_TodoTaskModel implements _TodoTaskModel {
 
   @override
   String toString() {
-    return 'TodoTaskModel(id: $id, title: $title, dueDate: $dueDate, time: $time, tag: $tag, type: $type, completed: $completed)';
+    return 'AddTaskEntity(id: $id, title: $title, dueDate: $dueDate, time: $time, tag: $tag, type: $type, completed: $completed)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TodoTaskModel &&
+            other is _$_AddTaskEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.dueDate, dueDate) || other.dueDate == dueDate) &&
@@ -232,29 +226,27 @@ class _$_TodoTaskModel implements _TodoTaskModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TodoTaskModelCopyWith<_$_TodoTaskModel> get copyWith =>
-      __$$_TodoTaskModelCopyWithImpl<_$_TodoTaskModel>(this, _$identity);
+  _$$_AddTaskEntityCopyWith<_$_AddTaskEntity> get copyWith =>
+      __$$_AddTaskEntityCopyWithImpl<_$_AddTaskEntity>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TodoTaskModelToJson(
+    return _$$_AddTaskEntityToJson(
       this,
     );
   }
 }
 
-abstract class _TodoTaskModel implements TodoTaskModel {
-  const factory _TodoTaskModel(
-      {required final String id,
-      required final String title,
-      final DateTime? dueDate,
+abstract class _AddTaskEntity implements AddTaskEntity {
+  const factory _AddTaskEntity(final String id, final String title,
+      {final DateTime? dueDate,
       final String? time,
       final String? tag,
       final String? type,
-      final bool? completed}) = _$_TodoTaskModel;
+      final bool? completed}) = _$_AddTaskEntity;
 
-  factory _TodoTaskModel.fromJson(Map<String, dynamic> json) =
-      _$_TodoTaskModel.fromJson;
+  factory _AddTaskEntity.fromJson(Map<String, dynamic> json) =
+      _$_AddTaskEntity.fromJson;
 
   @override
   String get id;
@@ -272,6 +264,6 @@ abstract class _TodoTaskModel implements TodoTaskModel {
   bool? get completed;
   @override
   @JsonKey(ignore: true)
-  _$$_TodoTaskModelCopyWith<_$_TodoTaskModel> get copyWith =>
+  _$$_AddTaskEntityCopyWith<_$_AddTaskEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }

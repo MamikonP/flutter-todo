@@ -20,19 +20,28 @@ import '../../../domain/use_cases/delete_task/delete_task_use_case.dart';
 import '../../../domain/use_cases/delete_todo/delete_todo_use_case.dart';
 import '../../../domain/use_cases/get_tasks/get_tasks_use_case.dart';
 import '../../../domain/use_cases/get_todos/get_todos_use_case.dart';
+import '../../../domain/use_cases/update_task/update_task_use_case.dart';
 
 part 'todo_event.dart';
 part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  TodoBloc(this._getTodosUseCase, this._addTodoUseCase, this._deleteTodoUseCase,
-      this._getTasksUseCase, this._addTaskUseCase, this._deleteTaskUseCase)
+  TodoBloc(
+      this._getTodosUseCase,
+      this._addTodoUseCase,
+      this._deleteTodoUseCase,
+      this._getTasksUseCase,
+      this._addTaskUseCase,
+      this._deleteTaskUseCase,
+      this._updateTaskUseCase)
       : super(const TodoInitial()) {
     on<LoadEvent>(_mapLoadEventToState);
     on<AddEvent>(_mapAddEventToState);
     on<DeleteEvent>(_mapDeleteEventToState);
     on<AddTaskEvent>(_mapAddTaskEventToState);
     on<DeleteTaskEvent>(_mapDeleteTaskEventToState);
+    on<UpdateTaskDetailEvent>(_mapUpdateTaskDetailEventToState);
+    on<UpdateTaskItemEvent>(_mapUpdateTaskItemEventToState);
   }
 
   final GetTodosUseCase _getTodosUseCase;
@@ -41,6 +50,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final GetTasksUseCase _getTasksUseCase;
   final AddTaskUseCase _addTaskUseCase;
   final DeleteTaskUseCase _deleteTaskUseCase;
+  final UpdateTaskUseCase _updateTaskUseCase;
 
   String get uuid => const Uuid().v1();
 
@@ -60,7 +70,12 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     tasks.fold((Failure left) {
       emit(TodoFailed(state, 'Failed to get tasks'));
     }, (List<TodoTaskEntity> right) {
-      emit(TodoLoaded(state, tasks: right));
+      emit(TodoLoaded(state,
+          tasks: right
+            ..sort(
+              (TodoTaskEntity first, TodoTaskEntity second) =>
+                  first.completed == true ? 1 : -1,
+            )));
     });
   }
 
@@ -135,12 +150,27 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       entity.fold(
           (Failure left) =>
               emit(TodoFailed(state, 'Failed to delete the task')),
-          (EmptyEntity right) async {
-      });
+          (EmptyEntity right) async {});
       if (state is! TodoFailed) {
         await _foldTasks(emit);
       }
+    } catch (e) {
+      emit(TodoFailed(state, e.toString()));
+    }
+  }
 
+  FutureOr<void> _mapUpdateTaskDetailEventToState(
+      UpdateTaskDetailEvent event, Emitter<TodoState> emit) async {
+    emit(TodoBusy(state));
+    emit(TaskDetailUpdated(state, event.entity));
+  }
+
+  FutureOr<void> _mapUpdateTaskItemEventToState(
+      UpdateTaskItemEvent event, Emitter<TodoState> emit) async {
+    try {
+      emit(TodoBusy(state));
+      await _updateTaskUseCase(AddTaskEntity.fromJson(event.entity.toJson()));
+      await _foldTasks(emit);
     } catch (e) {
       emit(TodoFailed(state, e.toString()));
     }

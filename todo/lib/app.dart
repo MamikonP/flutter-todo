@@ -18,12 +18,8 @@ class _AppState extends State<App> {
     return MaterialApp(
       navigatorKey: widget.navigatorKey,
       title: 'Todo',
-      theme: ThemeData(
-        colorScheme: ThemeData().colorScheme.copyWith(
-              primary: Colors.deepPurple,
-              secondary: Colors.purple,
-            ),
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true),
       onGenerateRoute: AppRouter.generateRoute,
       initialRoute: NavigationRoutes.root,
     );

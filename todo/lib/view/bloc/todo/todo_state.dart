@@ -6,6 +6,7 @@ abstract class TodoState extends BlocState with EquatableMixin {
     this.todos = const <TodoListEntity>[],
     this.tasks = const <TodoTaskEntity>[],
     this.error,
+    this.addTaskEntity = const AddTaskEntity('', ''),
     StateFlowResult? result,
     final bool isBusy = false,
   }) : super(result, isBusy: isBusy);
@@ -13,6 +14,7 @@ abstract class TodoState extends BlocState with EquatableMixin {
   final String? error;
   final List<TodoListEntity> todos;
   final List<TodoTaskEntity> tasks;
+  final AddTaskEntity addTaskEntity;
 
   @override
   List<Object?> get props => <Object?>[
@@ -51,4 +53,15 @@ class TodoFailed extends TodoState {
             tasks: initState.tasks,
             error: error,
             result: StateFlowResult.failed);
+}
+
+class TaskDetailUpdated extends TodoState {
+  TaskDetailUpdated(
+    TodoState initState,
+    AddTaskEntity addTaskEntity,
+  ) : super(
+            todos: initState.todos,
+            tasks: initState.tasks,
+            addTaskEntity: addTaskEntity,
+            result: StateFlowResult.success);
 }

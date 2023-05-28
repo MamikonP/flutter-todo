@@ -21,7 +21,7 @@ class ActivityOverlayWidget {
       context: _context,
       barrierDismissible: false,
       barrierColor: Colors.black.withOpacity(0.5),
-      builder: (BuildContext context) => const LoadingIndicator(),
+      builder: (BuildContext context) => const Center(child: LoadingIndicator()),
     );
   }
 
