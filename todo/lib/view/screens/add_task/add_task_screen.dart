@@ -48,11 +48,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         widget.bloc!.state.addTaskEntity,
                         taskEntity: widget._todoTaskEntity
                             ?.copyWith(title: value ?? '')));
+                  } else {
+                    widget.bloc!.add(UpdateTaskDetailEvent(widget
+                        .bloc!.state.addTaskEntity
+                        .copyWith(title: value ?? '')));
                   }
-                } else {
-                  widget.bloc!.add(UpdateTaskDetailEvent(widget
-                      .bloc!.state.addTaskEntity
-                      .copyWith(title: value ?? '')));
                 }
               },
               validator: (String? value) {
