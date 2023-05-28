@@ -21,9 +21,39 @@ import '../../../domain/use_cases/delete_todo/delete_todo_use_case.dart';
 import '../../../domain/use_cases/get_tasks/get_tasks_use_case.dart';
 import '../../../domain/use_cases/get_todos/get_todos_use_case.dart';
 import '../../../domain/use_cases/update_task/update_task_use_case.dart';
+import '../../screens/home/constants/task_list_filter_by.dart';
+import '../../screens/home/constants/todo_list_filter_by.dart';
 
 part 'todo_event.dart';
 part 'todo_state.dart';
+
+extension TodoExtension on List<TodoListEntity> {
+  List<TodoListEntity> filterAll() => this;
+
+  void filterByDate() => sort((TodoListEntity first, TodoListEntity second) =>
+      first.created?.compareTo(second.created ?? DateTime.now()) ?? 0);
+
+  void filterByAlphabetical() =>
+      sort((TodoListEntity first, TodoListEntity second) =>
+          first.type.compareTo(second.type));
+}
+
+extension TaskExtension on List<TodoTaskEntity> {
+  List<TodoTaskEntity> filterAll() => this;
+
+  void filterByDate() => sort((TodoTaskEntity first, TodoTaskEntity second) =>
+      first.dueDate?.compareTo(second.dueDate ?? DateTime.now()) ?? 0);
+
+  void filterByAlphabetical() =>
+      sort((TodoTaskEntity first, TodoTaskEntity second) =>
+          first.title.compareTo(second.title));
+
+  List<TodoTaskEntity> filterCompleted() =>
+      where((TodoTaskEntity entity) => entity.completed == true).toList();
+
+  List<TodoTaskEntity> filterNonCompleted() =>
+      where((TodoTaskEntity entity) => entity.completed == false).toList();
+}
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoBloc(
@@ -42,6 +72,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<DeleteTaskEvent>(_mapDeleteTaskEventToState);
     on<UpdateTaskDetailEvent>(_mapUpdateTaskDetailEventToState);
     on<UpdateTaskItemEvent>(_mapUpdateTaskItemEventToState);
+    on<UpdateToDoPageEvent>(_mapUpdateTodoPageEventToState);
+    on<UpdateFilterEvent>(_mapUpdateFilterEventToState);
   }
 
   final GetTodosUseCase _getTodosUseCase;
@@ -54,13 +86,60 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
   String get uuid => const Uuid().v1();
 
+  Future<void> _filterTodos(
+      TodoListFilterBy filterBy, Emitter<TodoState> emit) async {
+    await _foldTodos(emit);
+    switch (filterBy) {
+      case TodoListFilterBy.all:
+        emit(TodoLoaded(state, todos: state.todos..filterAll()));
+        break;
+      case TodoListFilterBy.date:
+        emit(TodoLoaded(state, todos: state.todos..filterByDate()));
+        break;
+      case TodoListFilterBy.alphabetical:
+        emit(TodoLoaded(state, todos: state.todos..filterByAlphabetical()));
+        break;
+    }
+  }
+
+  Future<void> _filterTasks(
+      TaskListFilterBy filterBy, Emitter<TodoState> emit) async {
+    await _foldTasks(emit);
+    switch (filterBy) {
+      case TaskListFilterBy.all:
+        emit(TodoLoaded(state, tasks: state.tasks..filterAll()));
+        break;
+      case TaskListFilterBy.date:
+        emit(TodoLoaded(state, tasks: state.tasks..filterByDate()));
+        break;
+      case TaskListFilterBy.alphabetical:
+        emit(TodoLoaded(state, tasks: state.tasks..filterByAlphabetical()));
+        break;
+      case TaskListFilterBy.completed:
+        emit(TodoLoaded(state, tasks: state.tasks.filterCompleted()));
+        break;
+      case TaskListFilterBy.nonCompleted:
+        emit(TodoLoaded(state, tasks: state.tasks.filterNonCompleted()));
+        break;
+    }
+  }
+
   FutureOr<void> _foldTodos(Emitter<TodoState> emit) async {
     final Either<Failure, List<TodoListEntity>> todos =
         await _getTodosUseCase();
     todos.fold((Failure left) {
       emit(TodoFailed(state, 'Failed to get todos'));
     }, (List<TodoListEntity> right) {
-      emit(TodoLoaded(state, todos: right));
+      final List<TodoListEntity> todos = right.map((TodoListEntity todo) {
+        state.tasks.map((TodoTaskEntity task) {
+          if (task.type?.toLowerCase() == todo.type.toLowerCase()) {
+            todo.tasks.add(task);
+          }
+          return task;
+        }).toList();
+        return todo;
+      }).toList();
+      emit(TodoLoaded(state, todos: todos));
     });
   }
 
@@ -83,8 +162,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       LoadEvent event, Emitter<TodoState> emit) async {
     try {
       emit(TodoBusy(state));
-      await _foldTodos(emit);
       await _foldTasks(emit);
+      await _foldTodos(emit);
     } catch (e) {
       emit(TodoFailed(state, e.toString()));
     }
@@ -129,7 +208,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     try {
       emit(TodoBusy(state));
       final Either<Failure, EmptyEntity> entity =
-          await _addTaskUseCase(event.entity);
+          await _addTaskUseCase(event.entity.copyWith(id: uuid));
       entity.fold(
           (Failure left) => emit(TodoFailed(state, 'Failed to add task')),
           (EmptyEntity right) async {});
@@ -162,7 +241,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   FutureOr<void> _mapUpdateTaskDetailEventToState(
       UpdateTaskDetailEvent event, Emitter<TodoState> emit) async {
     emit(TodoBusy(state));
-    emit(TaskDetailUpdated(state, event.entity));
+    emit(TaskDetailUpdated(state, event.entity, taskEntity: event.taskEntity));
   }
 
   FutureOr<void> _mapUpdateTaskItemEventToState(
@@ -173,6 +252,23 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       await _foldTasks(emit);
     } catch (e) {
       emit(TodoFailed(state, e.toString()));
+    }
+  }
+
+  FutureOr<void> _mapUpdateTodoPageEventToState(
+      UpdateToDoPageEvent event, Emitter<TodoState> emit) {
+    emit(TodoPageUpdated(state, page: event.page));
+  }
+
+  FutureOr<void> _mapUpdateFilterEventToState(
+      UpdateFilterEvent event, Emitter<TodoState> emit) async {
+    emit(TodoPageUpdated(state,
+        todoFilter: event.todoListFilterBy,
+        taskFilter: event.taskListFilterBy));
+    if (event.todoListFilterBy != null) {
+      await _filterTodos(event.todoListFilterBy!, emit);
+    } else if (event.taskListFilterBy != null) {
+      await _filterTasks(event.taskListFilterBy!, emit);
     }
   }
 }

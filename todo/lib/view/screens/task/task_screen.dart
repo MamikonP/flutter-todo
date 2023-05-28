@@ -6,11 +6,12 @@ import '../../../shared/gaps.dart';
 import '../../bloc/todo/todo_bloc.dart';
 import '../../router/navigation_router.dart';
 import '../../router/navigation_routes.dart';
+import '../../widgets/radio_button_widget.dart';
+import '../home/constants/task_list_filter_by.dart';
 import 'components/task_item.dart';
 
 class TaskScreen extends StatelessWidget {
-  const TaskScreen(this.tasks, this._navigationRouter,
-      {super.key});
+  const TaskScreen(this.tasks, this._navigationRouter, {super.key});
 
   final List<TodoTaskEntity> tasks;
   final NavigationRouter _navigationRouter;
@@ -20,10 +21,35 @@ class TaskScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) => Stack(
         children: <Widget>[
-          ListView.builder(
-            itemCount: tasks.length,
-            itemBuilder: (BuildContext context, int index) =>
-                TaskItem(tasks[index]),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.filter_alt_outlined),
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (_) {
+                      return RadioButtonWidget<TaskListFilterBy>(
+                        TaskListFilterBy.values,
+                        onSaved: (TaskListFilterBy? filterBy) {
+                          context.read<TodoBloc>().add(
+                              UpdateFilterEvent(taskListFilterBy: filterBy));
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: tasks.length,
+                  itemBuilder: (BuildContext context, int index) =>
+                      TaskItem(tasks[index], _navigationRouter),
+                ),
+              ),
+            ],
           ),
           Positioned(
             right: Gaps.medium.value,

@@ -70,11 +70,15 @@ class HomePageRoute<T> extends PageRoute<T>
             length: 2,
             child: AppScreen(
               appBar: AppBar(
-                title: const Text('ToDo List'),
-                bottom: const TabBar(tabs: <Widget>[
-                  Tab(icon: Icon(Icons.today_outlined)),
-                  Tab(icon: Icon(Icons.task))
-                ]),
+                title: Text(state.page == 0 ? 'ToDo List' : 'Tasks'),
+                bottom: TabBar(
+                    onTap: (int value) {
+                      context.read<TodoBloc>().add(UpdateToDoPageEvent(value));
+                    },
+                    tabs: const <Widget>[
+                      Tab(icon: Icon(Icons.today_outlined)),
+                      Tab(icon: Icon(Icons.task))
+                    ]),
               ),
               content: TabBarView(children: <Widget>[
                 HomeScreen(_homePageHelper, state.todos),

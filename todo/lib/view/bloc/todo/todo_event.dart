@@ -30,13 +30,27 @@ class DeleteTaskEvent implements TodoEvent {
 }
 
 class UpdateTaskDetailEvent implements TodoEvent {
-  const UpdateTaskDetailEvent(this.entity);
+  const UpdateTaskDetailEvent(this.entity, {this.taskEntity});
 
   final AddTaskEntity entity;
+  final TodoTaskEntity? taskEntity;
 }
 
 class UpdateTaskItemEvent implements TodoEvent {
   const UpdateTaskItemEvent(this.entity);
 
   final TodoTaskEntity entity;
+}
+
+class UpdateToDoPageEvent implements TodoEvent {
+  const UpdateToDoPageEvent(this.page);
+
+  final int page;
+}
+
+class UpdateFilterEvent implements TodoEvent {
+  const UpdateFilterEvent({this.todoListFilterBy, this.taskListFilterBy});
+
+  final TodoListFilterBy? todoListFilterBy;
+  final TaskListFilterBy? taskListFilterBy;
 }

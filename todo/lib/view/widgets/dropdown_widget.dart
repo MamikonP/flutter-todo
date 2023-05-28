@@ -6,6 +6,7 @@ class DropDownWidget<T> extends StatefulWidget {
     required this.items,
     this.prefix,
     this.selectedText,
+    this.initialText,
     this.onChanged,
     this.onSelected,
     this.border,
@@ -15,6 +16,7 @@ class DropDownWidget<T> extends StatefulWidget {
 
   final Widget? prefix;
   final String? selectedText;
+  final String? initialText;
   final List<T> items;
   final void Function(T)? onSelected;
   final ValueChanged<String>? onChanged;
@@ -33,6 +35,8 @@ class _DropDownWidgetState<T> extends State<DropDownWidget<T>> {
   void initState() {
     if (widget.selectedText != null) {
       _controller.text = widget.selectedText!;
+    } else if (widget.initialText != null) {
+      _controller.text = widget.initialText!;
     }
 
     _controller.addListener(() {

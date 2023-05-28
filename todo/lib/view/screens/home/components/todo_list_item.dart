@@ -4,6 +4,7 @@ import '../../../../data/models/todo_list/todo_list_color.dart';
 import '../../../../domain/entities/todo_list/todo_list_entity.dart';
 import '../../../../extension/date_time_formatter.dart';
 import '../../../../shared/gaps.dart';
+import '../../../bloc/todo/todo_bloc.dart';
 import '../helper/home_page_helper.dart';
 
 mixin _Constants {
@@ -33,7 +34,7 @@ class TodoListItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: Gaps.medium.value, vertical: Gaps.small.value),
-            child: const Icon(Icons.work),
+            child: const Icon(Icons.ads_click),
           ),
           ListTile(
             title: Text(
@@ -50,7 +51,8 @@ class TodoListItem extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(_todoListEntity.tasks.length.toString()),
+                Text(
+                    '${_todoListEntity.tasks.filterCompleted().length} of ${_todoListEntity.tasks.length} completed'),
               ],
             ),
           ))

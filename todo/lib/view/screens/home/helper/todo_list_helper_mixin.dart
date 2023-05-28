@@ -43,7 +43,7 @@ mixin TodoListHelperMixin on HomePageHelper {
             ),
             TextButton(
                 onPressed: () {
-                  if (controller.text.isEmpty) {
+                  if (controller.text.isNotEmpty) {
                     Navigator.pop(context);
                     context.read<TodoBloc>().add(AddEvent(AddTodoListEntity(
                         controller.text, selectedColor, DateTime.now())));
