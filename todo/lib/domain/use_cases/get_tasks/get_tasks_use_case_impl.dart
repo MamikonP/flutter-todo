@@ -3,8 +3,8 @@ import 'package:dartz/dartz.dart';
 import '../../../core/error/failure.dart';
 import '../../../core/error/local_db_failure.dart';
 import '../../../data/models/todo_task/todo_task_model.dart';
-import '../../../data/repositories/todo/todo_repository.dart';
 import '../../entities/todo_task/todo_task_entity.dart';
+import '../../repositories/todo/todo_repository.dart';
 import 'get_tasks_use_case.dart';
 
 class GetTasksUseCaseImpl implements GetTasksUseCase {

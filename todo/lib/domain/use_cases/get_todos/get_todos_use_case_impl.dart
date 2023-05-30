@@ -3,8 +3,8 @@ import 'package:dartz/dartz.dart';
 import '../../../core/error/failure.dart';
 import '../../../core/error/local_db_failure.dart';
 import '../../../data/models/todo_list/todo_list_model.dart';
-import '../../../data/repositories/todo/todo_repository.dart';
 import '../../entities/todo_list/todo_list_entity.dart';
+import '../../repositories/todo/todo_repository.dart';
 import 'get_todos_use_case.dart';
 
 class GetTodosUseCaseImpl implements GetTodosUseCase {

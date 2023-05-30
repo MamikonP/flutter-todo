@@ -1,12 +1,12 @@
 import 'package:hive/hive.dart';
 
-import '../../../data/datasources/local/local_db_service.dart';
-import '../../../data/models/todo_list/todo_list_model.dart';
-import '../../../data/models/todo_task/todo_task_model.dart';
-import '../../../data/repositories/todo/todo_repository.dart';
-import '../../entities/add_task/add_task_entity.dart';
-import '../../entities/add_todo_list/add_todo_list_entity.dart';
-import '../../entities/delete_todo_list/delete_todo_list_entity.dart';
+import '../../../domain/entities/add_task/add_task_entity.dart';
+import '../../../domain/entities/add_todo_list/add_todo_list_entity.dart';
+import '../../../domain/entities/delete_todo_list/delete_todo_list_entity.dart';
+import '../../../domain/repositories/todo/todo_repository.dart';
+import '../../datasources/local/local_db_service.dart';
+import '../../models/todo_list/todo_list_model.dart';
+import '../../models/todo_task/todo_task_model.dart';
 
 mixin _Contants {
   static const String todoListKey = 'TODO_LIST';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/repositories/todo/todo_repository.dart';
+import '../../domain/repositories/todo/todo_repository.dart';
 import '../../domain/use_cases/add_task/add_task_use_case.dart';
 import '../../domain/use_cases/add_task/add_task_use_case_impl.dart';
 import '../../domain/use_cases/add_todo/add_todo_use_case.dart';
