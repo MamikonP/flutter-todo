@@ -4,7 +4,9 @@ import '../../../domain/entities/add_task/add_task_entity.dart';
 import '../../../domain/entities/add_todo_list/add_todo_list_entity.dart';
 import '../../../domain/entities/delete_todo_list/delete_todo_list_entity.dart';
 import '../../../domain/repositories/todo/todo_repository.dart';
+import '../../../extension/map_extension.dart';
 import '../../datasources/local/local_db_service.dart';
+import '../../mapper/base_mapper.dart';
 import '../../models/todo_list/todo_list_model.dart';
 import '../../models/todo_task/todo_task_model.dart';
 
@@ -14,9 +16,12 @@ mixin _Contants {
 }
 
 class TodoRepositoryImpl implements TodoRepository {
-  const TodoRepositoryImpl(this._localDbService);
+  const TodoRepositoryImpl(this._localDbService,
+      {required this.todoListMapper, required this.taskListMapper});
 
   final LocalDbService _localDbService;
+  final BaseMapper<TodoListModel> todoListMapper;
+  final BaseMapper<TodoTaskModel> taskListMapper;
 
   Future<Box<Map<dynamic, dynamic>>> get todoListBox async =>
       _localDbService.open(_Contants.todoListKey);
@@ -28,11 +33,7 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<List<TodoListModel>> getTodos() async {
     final Box<Map<dynamic, dynamic>> box = await todoListBox;
     final List<Map<dynamic, dynamic>> todos = _localDbService.getAll(box);
-    return todos
-        .map((Map<dynamic, dynamic> json) => TodoListModel.fromJson(json.map(
-            (dynamic key, dynamic value) =>
-                MapEntry<String, dynamic>(key as String, value))))
-        .toList();
+    return todoListMapper.result(todos.toMapStringKey());
   }
 
   @override
@@ -55,11 +56,7 @@ class TodoRepositoryImpl implements TodoRepository {
   Future<List<TodoTaskModel>> getAllTasks() async {
     final Box<Map<dynamic, dynamic>> box = await todoTaskBox;
     final List<Map<dynamic, dynamic>> tasks = _localDbService.getAll(box);
-    return tasks
-        .map((Map<dynamic, dynamic> json) => TodoTaskModel.fromJson(json.map(
-            (dynamic key, dynamic value) =>
-                MapEntry<String, dynamic>(key as String, value))))
-        .toList();
+    return taskListMapper.result(tasks.toMapStringKey());
   }
 
   @override
